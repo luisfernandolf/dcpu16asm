@@ -45,6 +45,9 @@ IFG A, B
 IFA A, B
 IFL A, B
 IFU A, B
+ADX A, B
+SUX A, B
+
 
 JSR A
 INT A

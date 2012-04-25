@@ -9,7 +9,7 @@
 	#define YYDEBUG 1
 %}
 %token SET ADD SUB MUL MUI DIV DVI MOD AND BOR XOR SHR ASR SHL 
-%token IFB IFC IFE IFN IFG IFA IFA IFL IFU 
+%token IFB IFC IFE IFN IFG IFA IFA IFL IFU ADX SUX
 %token JSR INT ING INS HWN HWQ HWI
 %token ORGIN WORD BYTE EQU NUMBER IDENT EOL EOFILE ERROR 
  
@@ -147,6 +147,8 @@ opcode_expr_double
 	| IFA 	{ $$ = 0x15; }
 	| IFL 	{ $$ = 0x16; }
 	| IFU 	{ $$ = 0x17; }
+	| ADX	{ $$ = 0x1A; }
+	| SUX   { $$ = 0x1B; }
 	;
 
 opcode_expr
