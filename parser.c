@@ -79,7 +79,7 @@ typedef union
 	uint16_t _code;
 	int _num;
 	tag _ident;
-	tag _string;
+	char* _string;
 	Operand  _operand;
 	Opcode _opcode;
 	ast* _expr;
@@ -202,15 +202,15 @@ static const short yyrhs[] = {    73,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    50,    57,    58,    62,    63,    64,    65,    66,    67,    68,
-    69,    70,    73,    74,    77,    78,    79,    82,    83,    84,
-    85,    90,    91,    92,    93,    94,    95,    96,    97,   101,
-   102,   103,   104,   105,   106,   107,   108,   109,   110,   111,
-   112,   113,   114,   115,   119,   120,   121,   122,   123,   124,
-   125,   128,   129,   130,   131,   132,   133,   134,   135,   136,
-   137,   138,   139,   140,   141,   142,   143,   144,   145,   146,
-   147,   148,   149,   150,   151,   155,   156,   159,   160,   161,
-   162,   163,   164,   165,   166,   167
+    51,    58,    59,    63,    64,    65,    66,    67,    68,    69,
+    70,    71,    74,    75,    78,    79,    80,    83,    84,    85,
+    86,    91,    92,    93,    94,    95,    96,    97,    98,   102,
+   103,   104,   105,   106,   107,   108,   109,   110,   111,   112,
+   113,   114,   115,   116,   120,   121,   122,   123,   124,   125,
+   126,   129,   130,   131,   132,   133,   134,   135,   136,   137,
+   138,   139,   140,   141,   142,   143,   144,   145,   146,   147,
+   148,   149,   150,   151,   152,   156,   157,   160,   161,   162,
+   163,   164,   165,   166,   167,   168
 };
 
 static const char * const yytname[] = {   "$","error","$undefined.","SET","ADD",
@@ -865,349 +865,349 @@ yyreduce:
   switch (yyn) {
 
 case 1:
-#line 51 "dcpu16.bison"
+#line 52 "dcpu16.bison"
 {
 	    return 0;
 	  ;
     break;}
 case 2:
-#line 57 "dcpu16.bison"
-{	pushline(yyvsp[0]._line); ;
-    break;}
-case 3:
 #line 58 "dcpu16.bison"
 {	pushline(yyvsp[0]._line); ;
     break;}
+case 3:
+#line 59 "dcpu16.bison"
+{	pushline(yyvsp[0]._line); ;
+    break;}
 case 4:
-#line 62 "dcpu16.bison"
+#line 63 "dcpu16.bison"
 { yyval._line =  0; ;
     break;}
 case 5:
-#line 63 "dcpu16.bison"
-{ yyval._line = 0; sym_val(yyvsp[-3]._ident, ast_eval(yyvsp[-1]._expr)); ;
-    break;}
-case 6:
 #line 64 "dcpu16.bison"
 { yyval._line = 0; sym_val(yyvsp[-3]._ident, ast_eval(yyvsp[-1]._expr)); ;
     break;}
-case 7:
+case 6:
 #line 65 "dcpu16.bison"
+{ yyval._line = 0; sym_val(yyvsp[-3]._ident, ast_eval(yyvsp[-1]._expr)); ;
+    break;}
+case 7:
+#line 66 "dcpu16.bison"
 { yyval._line = line_origin(ast_eval(yyvsp[-1]._expr)); sym_val(yyvsp[-3]._ident, line_current_pc()); ;
     break;}
 case 8:
-#line 66 "dcpu16.bison"
+#line 67 "dcpu16.bison"
 { yyval._line = line_origin(ast_eval(yyvsp[-1]._expr)); ;
     break;}
 case 9:
-#line 67 "dcpu16.bison"
+#line 68 "dcpu16.bison"
 { yyval._line = 0; ;
     break;}
 case 10:
-#line 68 "dcpu16.bison"
-{ yyval._line = yyvsp[-1]._line; ;
-    break;}
-case 11:
 #line 69 "dcpu16.bison"
 { yyval._line = yyvsp[-1]._line; ;
     break;}
-case 12:
+case 11:
 #line 70 "dcpu16.bison"
+{ yyval._line = yyvsp[-1]._line; ;
+    break;}
+case 12:
+#line 71 "dcpu16.bison"
 { yyval._line = 0;  ;
     break;}
 case 13:
-#line 73 "dcpu16.bison"
+#line 74 "dcpu16.bison"
 { yyval._ident = yyvsp[-1]._ident;  sym_val(yyvsp[-1]._ident, line_current_pc()); ;
     break;}
 case 14:
-#line 74 "dcpu16.bison"
+#line 75 "dcpu16.bison"
 { yyval._ident = yyvsp[0]._ident;  sym_val(yyvsp[0]._ident, line_current_pc()); ;
     break;}
 case 15:
-#line 77 "dcpu16.bison"
+#line 78 "dcpu16.bison"
 { yyval._line = line_words(yyvsp[0]._args);  ;
     break;}
 case 16:
-#line 78 "dcpu16.bison"
+#line 79 "dcpu16.bison"
 { yyval._line = line_bytes(yyvsp[0]._args);  ;
     break;}
 case 17:
-#line 79 "dcpu16.bison"
+#line 80 "dcpu16.bison"
 { yyval._line = line_opcode(yyvsp[0]._opcode); ;
     break;}
 case 18:
-#line 82 "dcpu16.bison"
-{ yyval._args = arg_array((uint8_t*)yyvsp[0]._ident,strlen(yyvsp[0]._ident));  ;
+#line 83 "dcpu16.bison"
+{ yyval._args = arg_array((uint8_t*)yyvsp[0]._string,strlen(yyvsp[0]._string));  ;
     break;}
 case 19:
-#line 83 "dcpu16.bison"
+#line 84 "dcpu16.bison"
 { yyval._args = arg_expr(yyvsp[0]._expr);   ;
     break;}
 case 20:
-#line 84 "dcpu16.bison"
-{ yyval._args = arg_array((uint8_t*)yyvsp[-2]._ident,strlen(yyvsp[-2]._ident)); yyval._args->next = yyvsp[0]._args;  ;
+#line 85 "dcpu16.bison"
+{ yyval._args = arg_array((uint8_t*)yyvsp[-2]._string,strlen(yyvsp[-2]._string)); yyval._args->next = yyvsp[0]._args;  ;
     break;}
 case 21:
-#line 85 "dcpu16.bison"
+#line 86 "dcpu16.bison"
 { yyval._args = arg_expr(yyvsp[-2]._expr); yyval._args->next = yyvsp[0]._args;    ;
     break;}
 case 22:
-#line 90 "dcpu16.bison"
+#line 91 "dcpu16.bison"
 { yyval._code = 0; ;
     break;}
 case 23:
-#line 91 "dcpu16.bison"
+#line 92 "dcpu16.bison"
 { yyval._code = 1;  ;
     break;}
 case 24:
-#line 92 "dcpu16.bison"
+#line 93 "dcpu16.bison"
 { yyval._code = 2;  ;
     break;}
 case 25:
-#line 93 "dcpu16.bison"
+#line 94 "dcpu16.bison"
 { yyval._code = 3;  ;
     break;}
 case 26:
-#line 94 "dcpu16.bison"
+#line 95 "dcpu16.bison"
 { yyval._code = 4;  ;
     break;}
 case 27:
-#line 95 "dcpu16.bison"
+#line 96 "dcpu16.bison"
 { yyval._code = 5;  ;
     break;}
 case 28:
-#line 96 "dcpu16.bison"
+#line 97 "dcpu16.bison"
 { yyval._code = 6;  ;
     break;}
 case 29:
-#line 97 "dcpu16.bison"
+#line 98 "dcpu16.bison"
 { yyval._code = 7;  ;
     break;}
 case 30:
-#line 101 "dcpu16.bison"
+#line 102 "dcpu16.bison"
 { yyval._operand.code = yyvsp[0]._code;		yyval._operand.expr = NULL;		;
     break;}
 case 31:
-#line 102 "dcpu16.bison"
+#line 103 "dcpu16.bison"
 { yyval._operand.code = yyvsp[-1]._code + 8;	yyval._operand.expr = NULL;		;
     break;}
 case 32:
-#line 103 "dcpu16.bison"
+#line 104 "dcpu16.bison"
 { yyval._operand.code = yyvsp[-3]._code + 16; yyval._operand.expr = yyvsp[-1]._expr;		;
     break;}
 case 33:
-#line 104 "dcpu16.bison"
+#line 105 "dcpu16.bison"
 { yyval._operand.code = yyvsp[-1]._code + 16; yyval._operand.expr = yyvsp[-3]._expr;		;
     break;}
 case 34:
-#line 105 "dcpu16.bison"
-{ yyval._operand.code  = 0x18;	yyval._operand.expr = NULL;		;
-    break;}
-case 35:
 #line 106 "dcpu16.bison"
 { yyval._operand.code  = 0x18;	yyval._operand.expr = NULL;		;
     break;}
-case 36:
+case 35:
 #line 107 "dcpu16.bison"
-{ yyval._operand.code  = 0x19;	yyval._operand.expr = NULL;		;
+{ yyval._operand.code  = 0x18;	yyval._operand.expr = NULL;		;
     break;}
-case 37:
+case 36:
 #line 108 "dcpu16.bison"
 { yyval._operand.code  = 0x19;	yyval._operand.expr = NULL;		;
     break;}
-case 38:
+case 37:
 #line 109 "dcpu16.bison"
+{ yyval._operand.code  = 0x19;	yyval._operand.expr = NULL;		;
+    break;}
+case 38:
+#line 110 "dcpu16.bison"
 { yyval._operand.code  = 0x1a;	yyval._operand.expr = yyvsp[0]._expr;		;
     break;}
 case 39:
-#line 110 "dcpu16.bison"
+#line 111 "dcpu16.bison"
 { yyval._operand.code  = 0x1a;	yyval._operand.expr = yyvsp[-1]._expr;		;
     break;}
 case 40:
-#line 111 "dcpu16.bison"
+#line 112 "dcpu16.bison"
 { yyval._operand.code  = 0x1b;	yyval._operand.expr = NULL;		;
     break;}
 case 41:
-#line 112 "dcpu16.bison"
+#line 113 "dcpu16.bison"
 { yyval._operand.code  = 0x1c;	yyval._operand.expr = NULL;		;
     break;}
 case 42:
-#line 113 "dcpu16.bison"
+#line 114 "dcpu16.bison"
 { yyval._operand.code  = 0x1d;	yyval._operand.expr = NULL;		;
     break;}
 case 43:
-#line 114 "dcpu16.bison"
+#line 115 "dcpu16.bison"
 { yyval._operand.code  = 0x1e;	yyval._operand.expr = yyvsp[-1]._expr;		;
     break;}
 case 44:
-#line 115 "dcpu16.bison"
+#line 116 "dcpu16.bison"
 { yyval._operand.code  = 0x1f;	yyval._operand.expr = yyvsp[0]._expr;		;
     break;}
 case 45:
-#line 119 "dcpu16.bison"
+#line 120 "dcpu16.bison"
 { yyval._code = 0x01;  ;
     break;}
 case 46:
-#line 120 "dcpu16.bison"
+#line 121 "dcpu16.bison"
 { yyval._code = 0x08;  ;
     break;}
 case 47:
-#line 121 "dcpu16.bison"
+#line 122 "dcpu16.bison"
 { yyval._code = 0x09;  ;
     break;}
 case 48:
-#line 122 "dcpu16.bison"
+#line 123 "dcpu16.bison"
 { yyval._code = 0x0a;  ;
     break;}
 case 49:
-#line 123 "dcpu16.bison"
+#line 124 "dcpu16.bison"
 { yyval._code = 0x10;  ;
     break;}
 case 50:
-#line 124 "dcpu16.bison"
+#line 125 "dcpu16.bison"
 { yyval._code = 0x11;  ;
     break;}
 case 51:
-#line 125 "dcpu16.bison"
+#line 126 "dcpu16.bison"
 { yyval._code = 0x12;  ;
     break;}
 case 52:
-#line 128 "dcpu16.bison"
+#line 129 "dcpu16.bison"
 { yyval._code = 0x1;  ;
     break;}
 case 53:
-#line 129 "dcpu16.bison"
+#line 130 "dcpu16.bison"
 { yyval._code = 0x2;  ;
     break;}
 case 54:
-#line 130 "dcpu16.bison"
+#line 131 "dcpu16.bison"
 { yyval._code = 0x3;  ;
     break;}
 case 55:
-#line 131 "dcpu16.bison"
+#line 132 "dcpu16.bison"
 { yyval._code = 0x4;  ;
     break;}
 case 56:
-#line 132 "dcpu16.bison"
+#line 133 "dcpu16.bison"
 { yyval._code = 0x5;  ;
     break;}
 case 57:
-#line 133 "dcpu16.bison"
+#line 134 "dcpu16.bison"
 { yyval._code = 0x6;  ;
     break;}
 case 58:
-#line 134 "dcpu16.bison"
+#line 135 "dcpu16.bison"
 { yyval._code = 0x7;  ;
     break;}
 case 59:
-#line 135 "dcpu16.bison"
+#line 136 "dcpu16.bison"
 { yyval._code = 0x8;  ;
     break;}
 case 60:
-#line 136 "dcpu16.bison"
+#line 137 "dcpu16.bison"
 { yyval._code = 0x9;  ;
     break;}
 case 61:
-#line 137 "dcpu16.bison"
+#line 138 "dcpu16.bison"
 { yyval._code = 0xA;  ;
     break;}
 case 62:
-#line 138 "dcpu16.bison"
+#line 139 "dcpu16.bison"
 { yyval._code = 0xB;  ;
     break;}
 case 63:
-#line 139 "dcpu16.bison"
+#line 140 "dcpu16.bison"
 { yyval._code = 0xC;  ;
     break;}
 case 64:
-#line 140 "dcpu16.bison"
+#line 141 "dcpu16.bison"
 { yyval._code = 0xD;  ;
     break;}
 case 65:
-#line 141 "dcpu16.bison"
+#line 142 "dcpu16.bison"
 { yyval._code = 0xE;  ;
     break;}
 case 66:
-#line 142 "dcpu16.bison"
+#line 143 "dcpu16.bison"
 { yyval._code = 0x10; ;
     break;}
 case 67:
-#line 143 "dcpu16.bison"
+#line 144 "dcpu16.bison"
 { yyval._code = 0x11; ;
     break;}
 case 68:
-#line 144 "dcpu16.bison"
+#line 145 "dcpu16.bison"
 { yyval._code = 0x12; ;
     break;}
 case 69:
-#line 145 "dcpu16.bison"
+#line 146 "dcpu16.bison"
 { yyval._code = 0x13; ;
     break;}
 case 70:
-#line 146 "dcpu16.bison"
+#line 147 "dcpu16.bison"
 { yyval._code = 0x14; ;
     break;}
 case 71:
-#line 147 "dcpu16.bison"
+#line 148 "dcpu16.bison"
 { yyval._code = 0x15; ;
     break;}
 case 72:
-#line 148 "dcpu16.bison"
+#line 149 "dcpu16.bison"
 { yyval._code = 0x16; ;
     break;}
 case 73:
-#line 149 "dcpu16.bison"
+#line 150 "dcpu16.bison"
 { yyval._code = 0x17; ;
     break;}
 case 74:
-#line 150 "dcpu16.bison"
+#line 151 "dcpu16.bison"
 { yyval._code = 0x1A; ;
     break;}
 case 75:
-#line 151 "dcpu16.bison"
+#line 152 "dcpu16.bison"
 { yyval._code = 0x1B; ;
     break;}
 case 76:
-#line 155 "dcpu16.bison"
+#line 156 "dcpu16.bison"
 { yyval._opcode.code = yyvsp[-3]._code; yyval._opcode.b = yyvsp[-2]._operand; yyval._opcode.a =  yyvsp[0]._operand; ;
     break;}
 case 77:
-#line 156 "dcpu16.bison"
+#line 157 "dcpu16.bison"
 { yyval._opcode.code = yyvsp[-1]._code << 5;  yyval._opcode.a = yyvsp[0]._operand; yyval._opcode.b.code = -1; ;
     break;}
 case 78:
-#line 159 "dcpu16.bison"
+#line 160 "dcpu16.bison"
 { yyval._expr = ast_new('+', yyvsp[-2]._expr,yyvsp[0]._expr); ;
     break;}
 case 79:
-#line 160 "dcpu16.bison"
+#line 161 "dcpu16.bison"
 { yyval._expr = ast_new('-', yyvsp[-2]._expr,yyvsp[0]._expr); ;
     break;}
 case 80:
-#line 161 "dcpu16.bison"
+#line 162 "dcpu16.bison"
 { yyval._expr = ast_new('*', yyvsp[-2]._expr,yyvsp[0]._expr); ;
     break;}
 case 81:
-#line 162 "dcpu16.bison"
+#line 163 "dcpu16.bison"
 { yyval._expr = ast_new('/', yyvsp[-2]._expr,yyvsp[0]._expr); ;
     break;}
 case 82:
-#line 163 "dcpu16.bison"
+#line 164 "dcpu16.bison"
 { yyval._expr = ast_new('%', yyvsp[-2]._expr,yyvsp[0]._expr); ;
     break;}
 case 83:
-#line 164 "dcpu16.bison"
+#line 165 "dcpu16.bison"
 { yyval._expr = yyvsp[-1]._expr; ;
     break;}
 case 84:
-#line 165 "dcpu16.bison"
+#line 166 "dcpu16.bison"
 { yyval._expr = ast_new(AST_UMINUS, yyvsp[0]._expr,NULL); ;
     break;}
 case 85:
-#line 166 "dcpu16.bison"
+#line 167 "dcpu16.bison"
 { yyval._expr = ast_num(yyvsp[0]._num); ;
     break;}
 case 86:
-#line 167 "dcpu16.bison"
+#line 168 "dcpu16.bison"
 { yyval._expr = ast_name(yyvsp[0]._ident); ;
     break;}
 }
@@ -1408,5 +1408,5 @@ yyerrhandle:
   yystate = yyn;
   goto yynewstate;
 }
-#line 169 "dcpu16.bison"
+#line 170 "dcpu16.bison"
 

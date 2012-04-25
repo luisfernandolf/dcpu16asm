@@ -20,7 +20,7 @@
 	uint16_t _code;
 	int _num;
 	tag _ident;
-	tag _string;
+	char* _string;
 	Operand  _operand;
 	Opcode _opcode;
 	ast* _expr;
@@ -28,7 +28,8 @@
 	arg* _args;
 }
 %token <_num> NUMBER 
-%token <_ident> STRING IDENT
+%token <_ident>  IDENT
+%token <_string> STRING
 %type <_ident> label 
 %type <_line>  line macro
 %type <_code> opcode_expr_double opcode_expr_single operand_regester

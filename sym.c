@@ -82,7 +82,7 @@ int sym_list(FILE * f) {
 	int ret = 0;
 	symbol* s = _symall;
 	while(s) {
-		ret += fprintf(f,"%4.4x: %s\n",s->name,s->u.val);
+		ret += fprintf(f,"%4.4x: %s\n",s->u.val,s->name);
 		s = s->allnext;
 	}
 	return ret;

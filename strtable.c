@@ -143,9 +143,9 @@ void vec_replace(char (*func)(char)) {
 }
 
 int  vec_putc(int c) {
-	if(_size + 1 < _allocated) _grow(2);
+	if(_size + 1 > _allocated) _grow(2);
 	_buff[_size++] = _lastc = (char)c;
-	_buff[_size++] = '\0';
+	_buff[_size] = '\0';
 	return c;
 }
 int  vec_getc() {
@@ -163,7 +163,7 @@ void vec_pushbyte(uint8_t b) {
 	*a = b;
 }
 void vec_pushword(uint16_t w) {
-	uint16_t* a = (uint8_t*)_grow(sizeof(uint16_t));
+	uint16_t* a = (uint16_t*)_grow(sizeof(uint16_t));
 	*a = w;
 }
 

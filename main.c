@@ -75,7 +75,9 @@ int main(int argc, char * argv[])
 			return 1;
 		}
 		asmname = argv[1];
-	} else { yyin = stdin; }
+	} else { usage(argv[0]); exit(1); }
+	
+	
 	yyparse (); // call the parser
 	//line_list(stdout);
 
@@ -100,6 +102,12 @@ int main(int argc, char * argv[])
 	if(f) line_binary(f);
 	fclose(f);
 
+	vec_init();
+	vec_sprintf("%s.sym", asmname);
+	f = fopen(b,"wt");
+	if(f) sym_list(f);
+	fclose(f);
+
 	ErrorSummary ();	
 	
 	//sym_list(stdout);
@@ -110,6 +118,6 @@ int main(int argc, char * argv[])
 //-----------------------------------------------------------------------------
 void usage(const char * prog)
 {
-   fprintf(stderr, "Usage: %s [-l] file.asm [file.asm]\r\n", prog);
+   fprintf(stderr, "Usage: %s file.asm\r\n", prog);
 }
 //-----------------------------------------------------------------------------
