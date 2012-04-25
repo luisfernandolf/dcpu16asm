@@ -12,14 +12,9 @@ FILE* errAsm = NULL;
 
 extern char* yytext;
 int errors = 0;
-int lineno = 1;
-int colno = 0;
+extern int yylineno;
 
-void count(const char* str) {
-	while(*(str++)) 
-		if (*str == '\n')  { colno = 0;   lineno++;  }
-		else colno += *str == '\t' ? 8 : 1;
-}	
+	
 
 void fatal_error(int i) {
 	yyerror("Fatal Error (%4.1x), exiting",i);
@@ -39,9 +34,9 @@ void yyerror(const char * format, ...)
 	va_list args;
 
 	if(did_crlf)
-		fprintf (errAsm, "\n(%d,%d) %s: ", lineno,colno,yytext);
+		fprintf (errAsm, "\n(%d) %s: ", yylineno,yytext);
 	else { 
-		fprintf (errAsm, "(%d,%d) %s: ", lineno,colno,yytext); 
+		fprintf (errAsm, "(%d) %s: ", yylineno,yytext); 
 		did_crlf = 1; 
 	}
 	va_start(args, format);

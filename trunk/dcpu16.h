@@ -13,8 +13,9 @@ extern FILE* errAsm;
 
 // Symbol lookups
 int sym_tok(tag name, int token);
-int sym_val(tag name, uint16_t val);
+int sym_val(tag name, int val);
 int sym_lookup(tag name);
+
 int sym_list(FILE * f);
 // Arg list
 typedef struct s_arglist {
@@ -70,8 +71,7 @@ void write_intel_hex(FILE* out);
 void yyerror(const char *,...);
 // This will also print the line and coll with "fatel error" message.  Run after yyerror.
 void fatal_error(int i);
-// This will take a string and count the amount of char and increase line/col in it
-void count(const char* str);
+
 
 extern FILE *yyin;  // the input stream
 int yyparse();

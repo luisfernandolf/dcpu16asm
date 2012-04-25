@@ -1,4 +1,4 @@
-%option noyywrap stack never-interactive
+%option noyywrap stack never-interactive yylineno case-insensitive
 %{
 	#include "dcpu16.h"
 	#include "parser.h"
@@ -7,7 +7,7 @@
 	#include <assert.h>	
 
 	//#define token(x) (x)
-	#define token(x) (count(yytext),(x))
+	#define token(x) ((x))
 	long char_lit_val = -1;
 	int str_or_char = 0;
 %}
@@ -23,29 +23,42 @@ WSPACE   [ \t\r]+
 %%
 [\#\,\:\+\=\(\)\*\-\[\]]		{ return token(yytext[0]); }
 	 
-".EQU"			{ return token(EQU); }
-".BYTE"			{ return token(BYTE); }
-".WORD"			{ return token(WORD); }
-".ORIGIN"		{ return token(ORGIN); }
+"EQU"			{ return token(EQU); }
+"DB"			{ return token(BYTE); }
+"DW"			{ return token(WORD); }
+"ORG"		    { return token(ORGIN); }
+
 "SET" 			{  return token(SET); }
 "ADD" 			{  return token(ADD); }
 "SUB" 			{  return token(SUB); }
 "MUL" 			{  return token(MUL); }
+"MUI" 			{  return token(MUI); }
 "DIV" 			{  return token(DIV); }
+"DVI" 			{  return token(DVI); }
 "MOD" 			{  return token(MOD); }
-"SHL" 			{  return token(SHL); }
-"SHR" 			{  return token(SHR); }
 "AND" 			{  return token(AND); }
 "BOR" 			{  return token(BOR); }
 "XOR" 			{  return token(XOR); }
+"SHR" 			{  return token(SHR); }
+"ASR" 			{  return token(ASR); }
+"SHL" 			{  return token(SHL); }
+"IFB" 			{  return token(IFB); }
+"IFC" 			{  return token(IFC); }
 "IFE" 			{  return token(IFE); }
 "IFN" 			{  return token(IFN); }
 "IFG"			{  return token(IFG); }
-"IFB" 			{  return token(IFB); }
+"IFA" 			{  return token(IFA); }
+"IFL" 			{  return token(IFL); }
+"IFU" 			{  return token(IFU); }
+
 "JSR" 			{  return token(JSR); }
-"POP" 			{  return token(REG_POP); }
-"PEEK" 			{  return token(REG_PEEK); }
-"PUSH" 			{  return token(REG_PUSH); }
+"INT" 			{  return token(INT); }
+"ING" 			{  return token(ING); }
+"INS" 			{  return token(INS); }
+"HWQ" 			{  return token(HWQ); }
+"HWN" 			{  return token(HWN); }
+"HWI" 			{  return token(HWI); }
+
 "SP"			{  return token(REG_SP); }
 "PC"			{  return token(REG_PC); }
 "A"				{  return token(REG_A); }
@@ -56,11 +69,16 @@ WSPACE   [ \t\r]+
 "Z"				{  return token(REG_Z); }
 "I"				{  return token(REG_I); }
 "J"				{  return token(REG_J); }
-"O"				{  return token(REG_O); }
+"EX"		    {  return token(REG_EX); }
+
+"POP" 			{  return token(POP);  }
+"PEEK" 			{  return token(PEEK); }
+"PUSH" 			{  return token(PUSH); }
+"PICK"			{  return token(PICK); }
 
 "//"|";"        {  BEGIN(comment_line); }
 <comment_line>{
-     \n			{   BEGIN(INITIAL); return token(EOL); }
+     \n			{   BEGIN(INITIAL);  return token(EOL); }
      [^\n]+     {  }
      "/"        {  }
 }
@@ -83,8 +101,8 @@ WSPACE   [ \t\r]+
 [1-9][0-9]*|[0-9]		{  yylval._num = atoi(yytext); return token(NUMBER); }
 
 [ \t]					{  } /* ignore whitespace */
-"\n"					{  return token(EOL); }
+"\n"					{ return token(EOL); }
 <<EOF>>					{ return EOFILE;  }
 
-.			return 0; 
+.			            { yyerror("Invalid Token %s", yytext); return 0; }
 %%
