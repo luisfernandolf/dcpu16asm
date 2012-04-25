@@ -20,6 +20,8 @@ WSPACE   [ \t\r]+
 
 %x comment_block
 %x comment_line
+%x strlit
+%x chrlit
 %%
 [\#\,\:\+\=\(\)\*\-\[\]]		{ return token(yytext[0]); }
 	 
@@ -92,8 +94,36 @@ WSPACE   [ \t\r]+
      "*"       {  }
      \n        {  }
 }
-
-
+\"                      { vec_init(); BEGIN(strlit); }
+<strlit>{
+	\"                { BEGIN(INITIAL);
+						yylval._string = vec_strdup();
+						printf("TEST: %s\n",yylval._string); 
+						return token(STRING);  
+					  }
+	\\\"              { vec_putc('"');     }
+	\\a               { vec_putc('\a');    }
+	\\b               { vec_putc('\b');    }
+	\\f               { vec_putc('\f');    }
+	\\n               { vec_putc('\n');    }
+	\\r               { vec_putc('\r');    }
+	\\t               { vec_putc('\t');    }
+	\n                { yyerror("End of line before end of string"); fatal_error(1); return 0;   }
+	.                 { vec_putc(*yytext);  }
+}
+\'					  { yylval._num = 0; BEGIN(chrlit); }
+<chrlit>{
+	\'                { BEGIN(INITIAL); printf("TEST: %c\n",yylval._num); return token(NUMBER);  }
+	\\\'              { yylval._num = '\'';    }
+	\\a               { yylval._num = '\a';    }
+	\\b               { yylval._num = '\b';    }
+	\\f               { yylval._num = '\f';    }
+	\\n               { yylval._num = '\n';    }
+	\\r               { yylval._num = '\r';    }
+	\\t               { yylval._num = '\t';    }
+	\n                { yyerror("End of line before end of char"); fatal_error(1); return 0;   }
+	.                 { yylval._num = *yytext;  }
+}
 
 [a-zA-Z][a-zA-Z0-9]*	{	 
 							yylval._ident = tagstr(yytext);
@@ -108,3 +138,4 @@ WSPACE   [ \t\r]+
 
 .			            { yyerror("Invalid Token %s", yytext); return 0; }
 %%
+

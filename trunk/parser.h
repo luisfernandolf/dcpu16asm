@@ -3,7 +3,7 @@ typedef union
 	uint16_t _code;
 	int _num;
 	tag _ident;
-	tag _string;
+	char* _string;
 	Operand  _operand;
 	Opcode _opcode;
 	ast* _expr;

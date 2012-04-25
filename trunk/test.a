@@ -60,3 +60,7 @@ HWI A
 :data	ORG 0x4000
 DB	1,2,3,4,5,6,7,8
 DW	1,2,3,4,5,6,7,8
+DB  "ABCDEFG",0
+DW	"ABCDEFG",0
+DB	'A', 'B', 'C'
+
