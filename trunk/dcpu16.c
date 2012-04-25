@@ -5,7 +5,7 @@
 
 const char* opcode_str[] =     { 
 	"E00", "SET", "ADD", "SUB", "MUL", "MUI", "DIV", "DVI", "MOD", "AND", "BOR", "XOR", "SHR", "ASR", "SHL", "E0F", 
-	"IFB", "IFC", "IFE", "IFN", "IFG", "IFA", "IFL", "IFU", "E18", "E19", "E1A", "E1B", "E1C", "E1D", "E1E", "E1F" 
+	"IFB", "IFC", "IFE", "IFN", "IFG", "IFA", "IFL", "IFU", "E18", "E19", "ADX", "SUX", "E1C", "E1D", "E1E", "E1F" 
 };
 const char* opcode_ext_str[] = { 
 	"S00", "JSR", "S02", "S03", "S04", "S05", "S06", "S07", "INT", "ING", "INS", "S0B", "S0C", "S0D", "S0E", "S0F",
@@ -153,7 +153,6 @@ uint16_t line_current_pc() { return PC; }
 extern int yylineno;
 void pushline(Line * line) {
 	if(!line) return;
-	printf("Line %d: Token: %x\n" , yylineno,line->type);
 	if(!root) { root = last = line; return; }
 	last->next = line;
 	last = line;

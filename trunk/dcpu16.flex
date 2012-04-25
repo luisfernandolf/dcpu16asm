@@ -50,6 +50,8 @@ WSPACE   [ \t\r]+
 "IFA" 			{  return token(IFA); }
 "IFL" 			{  return token(IFL); }
 "IFU" 			{  return token(IFU); }
+"ADX" 			{  return token(ADX); }
+"SUX" 			{  return token(SUX); }
 
 "JSR" 			{  return token(JSR); }
 "INT" 			{  return token(INT); }
