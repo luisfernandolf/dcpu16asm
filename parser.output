@@ -1,0 +1,1773 @@
+
+
+Terminals which are not used:
+
+   ERROR
+
+
+Conflict in state 56 between rule 82 and token '+' resolved as reduce.
+Conflict in state 56 between rule 82 and token '-' resolved as reduce.
+Conflict in state 56 between rule 82 and token '*' resolved as reduce.
+Conflict in state 56 between rule 82 and token '/' resolved as reduce.
+Conflict in state 56 between rule 82 and token '%' resolved as reduce.
+Conflict in state 104 between rule 76 and token '+' resolved as reduce.
+Conflict in state 104 between rule 76 and token '-' resolved as reduce.
+Conflict in state 104 between rule 76 and token '*' resolved as shift.
+Conflict in state 104 between rule 76 and token '/' resolved as shift.
+Conflict in state 104 between rule 76 and token '%' resolved as shift.
+Conflict in state 105 between rule 77 and token '+' resolved as reduce.
+Conflict in state 105 between rule 77 and token '-' resolved as reduce.
+Conflict in state 105 between rule 77 and token '*' resolved as shift.
+Conflict in state 105 between rule 77 and token '/' resolved as shift.
+Conflict in state 105 between rule 77 and token '%' resolved as shift.
+Conflict in state 106 between rule 78 and token '+' resolved as reduce.
+Conflict in state 106 between rule 78 and token '-' resolved as reduce.
+Conflict in state 106 between rule 78 and token '*' resolved as reduce.
+Conflict in state 106 between rule 78 and token '/' resolved as reduce.
+Conflict in state 106 between rule 78 and token '%' resolved as reduce.
+Conflict in state 107 between rule 79 and token '+' resolved as reduce.
+Conflict in state 107 between rule 79 and token '-' resolved as reduce.
+Conflict in state 107 between rule 79 and token '*' resolved as reduce.
+Conflict in state 107 between rule 79 and token '/' resolved as reduce.
+Conflict in state 107 between rule 79 and token '%' resolved as reduce.
+Conflict in state 108 between rule 80 and token '+' resolved as reduce.
+Conflict in state 108 between rule 80 and token '-' resolved as reduce.
+Conflict in state 108 between rule 80 and token '*' resolved as reduce.
+Conflict in state 108 between rule 80 and token '/' resolved as reduce.
+Conflict in state 108 between rule 80 and token '%' resolved as reduce.
+
+Grammar
+rule 1    all -> lines EOFILE
+rule 2    lines -> line
+rule 3    lines -> lines line
+rule 4    line -> EOL
+rule 5    line -> IDENT '=' expr EOL
+rule 6    line -> IDENT EQU expr EOL
+rule 7    line -> label ORGIN expr EOL
+rule 8    line -> ORGIN expr EOL
+rule 9    line -> label EOL
+rule 10   line -> macro EOL
+rule 11   line -> label macro EOL
+rule 12   line -> expr EOL
+rule 13   label -> IDENT ':'
+rule 14   label -> ':' IDENT
+rule 15   macro -> WORD datseq
+rule 16   macro -> BYTE datseq
+rule 17   macro -> opcode_expr
+rule 18   datseq -> STRING
+rule 19   datseq -> expr
+rule 20   datseq -> STRING ',' datseq
+rule 21   datseq -> expr ',' datseq
+rule 22   operand_regester -> REG_A
+rule 23   operand_regester -> REG_B
+rule 24   operand_regester -> REG_C
+rule 25   operand_regester -> REG_X
+rule 26   operand_regester -> REG_Y
+rule 27   operand_regester -> REG_Z
+rule 28   operand_regester -> REG_I
+rule 29   operand_regester -> REG_J
+rule 30   operand_expr -> operand_regester
+rule 31   operand_expr -> '[' operand_regester ']'
+rule 32   operand_expr -> '[' operand_regester '+' expr ']'
+rule 33   operand_expr -> '[' expr '+' operand_regester ']'
+rule 34   operand_expr -> PUSH
+rule 35   operand_expr -> POP
+rule 36   operand_expr -> PEEK
+rule 37   operand_expr -> '[' REG_SP ']'
+rule 38   operand_expr -> PICK expr
+rule 39   operand_expr -> '[' REG_SP '+' expr ']'
+rule 40   operand_expr -> REG_SP
+rule 41   operand_expr -> REG_PC
+rule 42   operand_expr -> REG_EX
+rule 43   operand_expr -> '[' expr ']'
+rule 44   operand_expr -> expr
+rule 45   opcode_expr_single -> JSR
+rule 46   opcode_expr_single -> INT
+rule 47   opcode_expr_single -> ING
+rule 48   opcode_expr_single -> INS
+rule 49   opcode_expr_single -> HWN
+rule 50   opcode_expr_single -> HWQ
+rule 51   opcode_expr_single -> HWI
+rule 52   opcode_expr_double -> SET
+rule 53   opcode_expr_double -> ADD
+rule 54   opcode_expr_double -> SUB
+rule 55   opcode_expr_double -> MUL
+rule 56   opcode_expr_double -> MUI
+rule 57   opcode_expr_double -> DIV
+rule 58   opcode_expr_double -> DVI
+rule 59   opcode_expr_double -> MOD
+rule 60   opcode_expr_double -> AND
+rule 61   opcode_expr_double -> BOR
+rule 62   opcode_expr_double -> XOR
+rule 63   opcode_expr_double -> SHR
+rule 64   opcode_expr_double -> ASR
+rule 65   opcode_expr_double -> SHL
+rule 66   opcode_expr_double -> IFB
+rule 67   opcode_expr_double -> IFC
+rule 68   opcode_expr_double -> IFE
+rule 69   opcode_expr_double -> IFN
+rule 70   opcode_expr_double -> IFG
+rule 71   opcode_expr_double -> IFA
+rule 72   opcode_expr_double -> IFL
+rule 73   opcode_expr_double -> IFU
+rule 74   opcode_expr -> opcode_expr_double operand_expr ',' operand_expr
+rule 75   opcode_expr -> opcode_expr_single operand_expr
+rule 76   expr -> expr '+' expr
+rule 77   expr -> expr '-' expr
+rule 78   expr -> expr '*' expr
+rule 79   expr -> expr '/' expr
+rule 80   expr -> expr '%' expr
+rule 81   expr -> '(' expr ')'
+rule 82   expr -> '-' expr
+rule 83   expr -> NUMBER
+rule 84   expr -> IDENT
+
+Terminals, with rules where they appear
+
+$ (-1)
+'%' (37) 80
+'(' (40) 81
+')' (41) 81
+'*' (42) 78
+'+' (43) 32 33 39 76
+',' (44) 20 21 74
+'-' (45) 77 82
+'/' (47) 79
+':' (58) 13 14
+'=' (61) 5
+'[' (91) 31 32 33 37 39 43
+']' (93) 31 32 33 37 39 43
+error (256)
+SET (258) 52
+ADD (259) 53
+SUB (260) 54
+MUL (261) 55
+MUI (262) 56
+DIV (263) 57
+DVI (264) 58
+MOD (265) 59
+AND (266) 60
+BOR (267) 61
+XOR (268) 62
+SHR (269) 63
+ASR (270) 64
+SHL (271) 65
+IFB (272) 66
+IFC (273) 67
+IFE (274) 68
+IFN (275) 69
+IFG (276) 70
+IFA (277) 71
+IFL (278) 72
+IFU (279) 73
+JSR (280) 45
+INT (281) 46
+ING (282) 47
+INS (283) 48
+HWN (284) 49
+HWQ (285) 50
+HWI (286) 51
+ORGIN (287) 7 8
+WORD (288) 15
+BYTE (289) 16
+EQU (290) 6
+NUMBER (291) 83
+IDENT (292) 5 6 13 14 84
+EOL (293) 4 5 6 7 8 9 10 11 12
+EOFILE (294) 1
+ERROR (295)
+REG_A (296) 22
+REG_B (297) 23
+REG_C (298) 24
+REG_X (299) 25
+REG_Y (300) 26
+REG_Z (301) 27
+REG_I (302) 28
+REG_J (303) 29
+REG_SP (304) 37 39 40
+REG_EX (305) 42
+REG_PC (306) 41
+PEEK (307) 36
+POP (308) 35
+PICK (309) 38
+PUSH (310) 34
+STRING (311) 18 20
+UMINUS (312)
+
+Nonterminals, with rules where they appear
+
+all (70)
+    on left: 1
+lines (71)
+    on left: 2 3, on right: 1 3
+line (72)
+    on left: 4 5 6 7 8 9 10 11 12, on right: 2 3
+label (73)
+    on left: 13 14, on right: 7 9 11
+macro (74)
+    on left: 15 16 17, on right: 10 11
+datseq (75)
+    on left: 18 19 20 21, on right: 15 16 20 21
+operand_regester (76)
+    on left: 22 23 24 25 26 27 28 29, on right: 30 31 32 33
+operand_expr (77)
+    on left: 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44,
+    on right: 74 75
+opcode_expr_single (78)
+    on left: 45 46 47 48 49 50 51, on right: 75
+opcode_expr_double (79)
+    on left: 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69
+    70 71 72 73, on right: 74
+opcode_expr (80)
+    on left: 74 75, on right: 17
+expr (81)
+    on left: 76 77 78 79 80 81 82 83 84, on right: 5 6 7 8 12 19 21
+    32 33 38 39 43 44 76 77 78 79 80 81 82
+
+
+state 0
+
+    SET 	shift, and go to state 1
+    ADD 	shift, and go to state 2
+    SUB 	shift, and go to state 3
+    MUL 	shift, and go to state 4
+    MUI 	shift, and go to state 5
+    DIV 	shift, and go to state 6
+    DVI 	shift, and go to state 7
+    MOD 	shift, and go to state 8
+    AND 	shift, and go to state 9
+    BOR 	shift, and go to state 10
+    XOR 	shift, and go to state 11
+    SHR 	shift, and go to state 12
+    ASR 	shift, and go to state 13
+    SHL 	shift, and go to state 14
+    IFB 	shift, and go to state 15
+    IFC 	shift, and go to state 16
+    IFE 	shift, and go to state 17
+    IFN 	shift, and go to state 18
+    IFG 	shift, and go to state 19
+    IFA 	shift, and go to state 20
+    IFL 	shift, and go to state 21
+    IFU 	shift, and go to state 22
+    JSR 	shift, and go to state 23
+    INT 	shift, and go to state 24
+    ING 	shift, and go to state 25
+    INS 	shift, and go to state 26
+    HWN 	shift, and go to state 27
+    HWQ 	shift, and go to state 28
+    HWI 	shift, and go to state 29
+    ORGIN	shift, and go to state 30
+    WORD	shift, and go to state 31
+    BYTE	shift, and go to state 32
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 34
+    EOL 	shift, and go to state 35
+    '-' 	shift, and go to state 36
+    ':' 	shift, and go to state 37
+    '(' 	shift, and go to state 38
+
+    all 	go to state 127
+    lines	go to state 39
+    line	go to state 40
+    label	go to state 41
+    macro	go to state 42
+    opcode_expr_single	go to state 43
+    opcode_expr_double	go to state 44
+    opcode_expr	go to state 45
+    expr	go to state 46
+
+
+
+state 1
+
+    opcode_expr_double  ->  SET .   (rule 52)
+
+    $default	reduce using rule 52 (opcode_expr_double)
+
+
+
+state 2
+
+    opcode_expr_double  ->  ADD .   (rule 53)
+
+    $default	reduce using rule 53 (opcode_expr_double)
+
+
+
+state 3
+
+    opcode_expr_double  ->  SUB .   (rule 54)
+
+    $default	reduce using rule 54 (opcode_expr_double)
+
+
+
+state 4
+
+    opcode_expr_double  ->  MUL .   (rule 55)
+
+    $default	reduce using rule 55 (opcode_expr_double)
+
+
+
+state 5
+
+    opcode_expr_double  ->  MUI .   (rule 56)
+
+    $default	reduce using rule 56 (opcode_expr_double)
+
+
+
+state 6
+
+    opcode_expr_double  ->  DIV .   (rule 57)
+
+    $default	reduce using rule 57 (opcode_expr_double)
+
+
+
+state 7
+
+    opcode_expr_double  ->  DVI .   (rule 58)
+
+    $default	reduce using rule 58 (opcode_expr_double)
+
+
+
+state 8
+
+    opcode_expr_double  ->  MOD .   (rule 59)
+
+    $default	reduce using rule 59 (opcode_expr_double)
+
+
+
+state 9
+
+    opcode_expr_double  ->  AND .   (rule 60)
+
+    $default	reduce using rule 60 (opcode_expr_double)
+
+
+
+state 10
+
+    opcode_expr_double  ->  BOR .   (rule 61)
+
+    $default	reduce using rule 61 (opcode_expr_double)
+
+
+
+state 11
+
+    opcode_expr_double  ->  XOR .   (rule 62)
+
+    $default	reduce using rule 62 (opcode_expr_double)
+
+
+
+state 12
+
+    opcode_expr_double  ->  SHR .   (rule 63)
+
+    $default	reduce using rule 63 (opcode_expr_double)
+
+
+
+state 13
+
+    opcode_expr_double  ->  ASR .   (rule 64)
+
+    $default	reduce using rule 64 (opcode_expr_double)
+
+
+
+state 14
+
+    opcode_expr_double  ->  SHL .   (rule 65)
+
+    $default	reduce using rule 65 (opcode_expr_double)
+
+
+
+state 15
+
+    opcode_expr_double  ->  IFB .   (rule 66)
+
+    $default	reduce using rule 66 (opcode_expr_double)
+
+
+
+state 16
+
+    opcode_expr_double  ->  IFC .   (rule 67)
+
+    $default	reduce using rule 67 (opcode_expr_double)
+
+
+
+state 17
+
+    opcode_expr_double  ->  IFE .   (rule 68)
+
+    $default	reduce using rule 68 (opcode_expr_double)
+
+
+
+state 18
+
+    opcode_expr_double  ->  IFN .   (rule 69)
+
+    $default	reduce using rule 69 (opcode_expr_double)
+
+
+
+state 19
+
+    opcode_expr_double  ->  IFG .   (rule 70)
+
+    $default	reduce using rule 70 (opcode_expr_double)
+
+
+
+state 20
+
+    opcode_expr_double  ->  IFA .   (rule 71)
+
+    $default	reduce using rule 71 (opcode_expr_double)
+
+
+
+state 21
+
+    opcode_expr_double  ->  IFL .   (rule 72)
+
+    $default	reduce using rule 72 (opcode_expr_double)
+
+
+
+state 22
+
+    opcode_expr_double  ->  IFU .   (rule 73)
+
+    $default	reduce using rule 73 (opcode_expr_double)
+
+
+
+state 23
+
+    opcode_expr_single  ->  JSR .   (rule 45)
+
+    $default	reduce using rule 45 (opcode_expr_single)
+
+
+
+state 24
+
+    opcode_expr_single  ->  INT .   (rule 46)
+
+    $default	reduce using rule 46 (opcode_expr_single)
+
+
+
+state 25
+
+    opcode_expr_single  ->  ING .   (rule 47)
+
+    $default	reduce using rule 47 (opcode_expr_single)
+
+
+
+state 26
+
+    opcode_expr_single  ->  INS .   (rule 48)
+
+    $default	reduce using rule 48 (opcode_expr_single)
+
+
+
+state 27
+
+    opcode_expr_single  ->  HWN .   (rule 49)
+
+    $default	reduce using rule 49 (opcode_expr_single)
+
+
+
+state 28
+
+    opcode_expr_single  ->  HWQ .   (rule 50)
+
+    $default	reduce using rule 50 (opcode_expr_single)
+
+
+
+state 29
+
+    opcode_expr_single  ->  HWI .   (rule 51)
+
+    $default	reduce using rule 51 (opcode_expr_single)
+
+
+
+state 30
+
+    line  ->  ORGIN . expr EOL   (rule 8)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 48
+
+
+
+state 31
+
+    macro  ->  WORD . datseq   (rule 15)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    STRING	shift, and go to state 49
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    datseq	go to state 50
+    expr	go to state 51
+
+
+
+state 32
+
+    macro  ->  BYTE . datseq   (rule 16)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    STRING	shift, and go to state 49
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    datseq	go to state 52
+    expr	go to state 51
+
+
+
+state 33
+
+    expr  ->  NUMBER .   (rule 83)
+
+    $default	reduce using rule 83 (expr)
+
+
+
+state 34
+
+    line  ->  IDENT . '=' expr EOL   (rule 5)
+    line  ->  IDENT . EQU expr EOL   (rule 6)
+    label  ->  IDENT . ':'   (rule 13)
+    expr  ->  IDENT .   (rule 84)
+
+    EQU 	shift, and go to state 53
+    '=' 	shift, and go to state 54
+    ':' 	shift, and go to state 55
+
+    $default	reduce using rule 84 (expr)
+
+
+
+state 35
+
+    line  ->  EOL .   (rule 4)
+
+    $default	reduce using rule 4 (line)
+
+
+
+state 36
+
+    expr  ->  '-' . expr   (rule 82)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 56
+
+
+
+state 37
+
+    label  ->  ':' . IDENT   (rule 14)
+
+    IDENT	shift, and go to state 57
+
+
+
+state 38
+
+    expr  ->  '(' . expr ')'   (rule 81)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 58
+
+
+
+state 39
+
+    all  ->  lines . EOFILE   (rule 1)
+    lines  ->  lines . line   (rule 3)
+
+    SET 	shift, and go to state 1
+    ADD 	shift, and go to state 2
+    SUB 	shift, and go to state 3
+    MUL 	shift, and go to state 4
+    MUI 	shift, and go to state 5
+    DIV 	shift, and go to state 6
+    DVI 	shift, and go to state 7
+    MOD 	shift, and go to state 8
+    AND 	shift, and go to state 9
+    BOR 	shift, and go to state 10
+    XOR 	shift, and go to state 11
+    SHR 	shift, and go to state 12
+    ASR 	shift, and go to state 13
+    SHL 	shift, and go to state 14
+    IFB 	shift, and go to state 15
+    IFC 	shift, and go to state 16
+    IFE 	shift, and go to state 17
+    IFN 	shift, and go to state 18
+    IFG 	shift, and go to state 19
+    IFA 	shift, and go to state 20
+    IFL 	shift, and go to state 21
+    IFU 	shift, and go to state 22
+    JSR 	shift, and go to state 23
+    INT 	shift, and go to state 24
+    ING 	shift, and go to state 25
+    INS 	shift, and go to state 26
+    HWN 	shift, and go to state 27
+    HWQ 	shift, and go to state 28
+    HWI 	shift, and go to state 29
+    ORGIN	shift, and go to state 30
+    WORD	shift, and go to state 31
+    BYTE	shift, and go to state 32
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 34
+    EOL 	shift, and go to state 35
+    EOFILE	shift, and go to state 59
+    '-' 	shift, and go to state 36
+    ':' 	shift, and go to state 37
+    '(' 	shift, and go to state 38
+
+    line	go to state 60
+    label	go to state 41
+    macro	go to state 42
+    opcode_expr_single	go to state 43
+    opcode_expr_double	go to state 44
+    opcode_expr	go to state 45
+    expr	go to state 46
+
+
+
+state 40
+
+    lines  ->  line .   (rule 2)
+
+    $default	reduce using rule 2 (lines)
+
+
+
+state 41
+
+    line  ->  label . ORGIN expr EOL   (rule 7)
+    line  ->  label . EOL   (rule 9)
+    line  ->  label . macro EOL   (rule 11)
+
+    SET 	shift, and go to state 1
+    ADD 	shift, and go to state 2
+    SUB 	shift, and go to state 3
+    MUL 	shift, and go to state 4
+    MUI 	shift, and go to state 5
+    DIV 	shift, and go to state 6
+    DVI 	shift, and go to state 7
+    MOD 	shift, and go to state 8
+    AND 	shift, and go to state 9
+    BOR 	shift, and go to state 10
+    XOR 	shift, and go to state 11
+    SHR 	shift, and go to state 12
+    ASR 	shift, and go to state 13
+    SHL 	shift, and go to state 14
+    IFB 	shift, and go to state 15
+    IFC 	shift, and go to state 16
+    IFE 	shift, and go to state 17
+    IFN 	shift, and go to state 18
+    IFG 	shift, and go to state 19
+    IFA 	shift, and go to state 20
+    IFL 	shift, and go to state 21
+    IFU 	shift, and go to state 22
+    JSR 	shift, and go to state 23
+    INT 	shift, and go to state 24
+    ING 	shift, and go to state 25
+    INS 	shift, and go to state 26
+    HWN 	shift, and go to state 27
+    HWQ 	shift, and go to state 28
+    HWI 	shift, and go to state 29
+    ORGIN	shift, and go to state 61
+    WORD	shift, and go to state 31
+    BYTE	shift, and go to state 32
+    EOL 	shift, and go to state 62
+
+    macro	go to state 63
+    opcode_expr_single	go to state 43
+    opcode_expr_double	go to state 44
+    opcode_expr	go to state 45
+
+
+
+state 42
+
+    line  ->  macro . EOL   (rule 10)
+
+    EOL 	shift, and go to state 64
+
+
+
+state 43
+
+    opcode_expr  ->  opcode_expr_single . operand_expr   (rule 75)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    REG_A	shift, and go to state 65
+    REG_B	shift, and go to state 66
+    REG_C	shift, and go to state 67
+    REG_X	shift, and go to state 68
+    REG_Y	shift, and go to state 69
+    REG_Z	shift, and go to state 70
+    REG_I	shift, and go to state 71
+    REG_J	shift, and go to state 72
+    REG_SP	shift, and go to state 73
+    REG_EX	shift, and go to state 74
+    REG_PC	shift, and go to state 75
+    PEEK	shift, and go to state 76
+    POP 	shift, and go to state 77
+    PICK	shift, and go to state 78
+    PUSH	shift, and go to state 79
+    '-' 	shift, and go to state 36
+    '[' 	shift, and go to state 80
+    '(' 	shift, and go to state 38
+
+    operand_regester	go to state 81
+    operand_expr	go to state 82
+    expr	go to state 83
+
+
+
+state 44
+
+    opcode_expr  ->  opcode_expr_double . operand_expr ',' operand_expr   (rule 74)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    REG_A	shift, and go to state 65
+    REG_B	shift, and go to state 66
+    REG_C	shift, and go to state 67
+    REG_X	shift, and go to state 68
+    REG_Y	shift, and go to state 69
+    REG_Z	shift, and go to state 70
+    REG_I	shift, and go to state 71
+    REG_J	shift, and go to state 72
+    REG_SP	shift, and go to state 73
+    REG_EX	shift, and go to state 74
+    REG_PC	shift, and go to state 75
+    PEEK	shift, and go to state 76
+    POP 	shift, and go to state 77
+    PICK	shift, and go to state 78
+    PUSH	shift, and go to state 79
+    '-' 	shift, and go to state 36
+    '[' 	shift, and go to state 80
+    '(' 	shift, and go to state 38
+
+    operand_regester	go to state 81
+    operand_expr	go to state 84
+    expr	go to state 83
+
+
+
+state 45
+
+    macro  ->  opcode_expr .   (rule 17)
+
+    $default	reduce using rule 17 (macro)
+
+
+
+state 46
+
+    line  ->  expr . EOL   (rule 12)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    EOL 	shift, and go to state 85
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+
+
+state 47
+
+    expr  ->  IDENT .   (rule 84)
+
+    $default	reduce using rule 84 (expr)
+
+
+
+state 48
+
+    line  ->  ORGIN expr . EOL   (rule 8)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    EOL 	shift, and go to state 91
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+
+
+state 49
+
+    datseq  ->  STRING .   (rule 18)
+    datseq  ->  STRING . ',' datseq   (rule 20)
+
+    ',' 	shift, and go to state 92
+
+    $default	reduce using rule 18 (datseq)
+
+
+
+state 50
+
+    macro  ->  WORD datseq .   (rule 15)
+
+    $default	reduce using rule 15 (macro)
+
+
+
+state 51
+
+    datseq  ->  expr .   (rule 19)
+    datseq  ->  expr . ',' datseq   (rule 21)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+    ',' 	shift, and go to state 93
+
+    $default	reduce using rule 19 (datseq)
+
+
+
+state 52
+
+    macro  ->  BYTE datseq .   (rule 16)
+
+    $default	reduce using rule 16 (macro)
+
+
+
+state 53
+
+    line  ->  IDENT EQU . expr EOL   (rule 6)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 94
+
+
+
+state 54
+
+    line  ->  IDENT '=' . expr EOL   (rule 5)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 95
+
+
+
+state 55
+
+    label  ->  IDENT ':' .   (rule 13)
+
+    $default	reduce using rule 13 (label)
+
+
+
+state 56
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+    expr  ->  '-' expr .   (rule 82)
+
+
+    $default	reduce using rule 82 (expr)
+
+
+
+state 57
+
+    label  ->  ':' IDENT .   (rule 14)
+
+    $default	reduce using rule 14 (label)
+
+
+
+state 58
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+    expr  ->  '(' expr . ')'   (rule 81)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+    ')' 	shift, and go to state 96
+
+
+
+state 59
+
+    all  ->  lines EOFILE .   (rule 1)
+
+    $default	reduce using rule 1 (all)
+
+
+
+state 60
+
+    lines  ->  lines line .   (rule 3)
+
+    $default	reduce using rule 3 (lines)
+
+
+
+state 61
+
+    line  ->  label ORGIN . expr EOL   (rule 7)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 97
+
+
+
+state 62
+
+    line  ->  label EOL .   (rule 9)
+
+    $default	reduce using rule 9 (line)
+
+
+
+state 63
+
+    line  ->  label macro . EOL   (rule 11)
+
+    EOL 	shift, and go to state 98
+
+
+
+state 64
+
+    line  ->  macro EOL .   (rule 10)
+
+    $default	reduce using rule 10 (line)
+
+
+
+state 65
+
+    operand_regester  ->  REG_A .   (rule 22)
+
+    $default	reduce using rule 22 (operand_regester)
+
+
+
+state 66
+
+    operand_regester  ->  REG_B .   (rule 23)
+
+    $default	reduce using rule 23 (operand_regester)
+
+
+
+state 67
+
+    operand_regester  ->  REG_C .   (rule 24)
+
+    $default	reduce using rule 24 (operand_regester)
+
+
+
+state 68
+
+    operand_regester  ->  REG_X .   (rule 25)
+
+    $default	reduce using rule 25 (operand_regester)
+
+
+
+state 69
+
+    operand_regester  ->  REG_Y .   (rule 26)
+
+    $default	reduce using rule 26 (operand_regester)
+
+
+
+state 70
+
+    operand_regester  ->  REG_Z .   (rule 27)
+
+    $default	reduce using rule 27 (operand_regester)
+
+
+
+state 71
+
+    operand_regester  ->  REG_I .   (rule 28)
+
+    $default	reduce using rule 28 (operand_regester)
+
+
+
+state 72
+
+    operand_regester  ->  REG_J .   (rule 29)
+
+    $default	reduce using rule 29 (operand_regester)
+
+
+
+state 73
+
+    operand_expr  ->  REG_SP .   (rule 40)
+
+    $default	reduce using rule 40 (operand_expr)
+
+
+
+state 74
+
+    operand_expr  ->  REG_EX .   (rule 42)
+
+    $default	reduce using rule 42 (operand_expr)
+
+
+
+state 75
+
+    operand_expr  ->  REG_PC .   (rule 41)
+
+    $default	reduce using rule 41 (operand_expr)
+
+
+
+state 76
+
+    operand_expr  ->  PEEK .   (rule 36)
+
+    $default	reduce using rule 36 (operand_expr)
+
+
+
+state 77
+
+    operand_expr  ->  POP .   (rule 35)
+
+    $default	reduce using rule 35 (operand_expr)
+
+
+
+state 78
+
+    operand_expr  ->  PICK . expr   (rule 38)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 99
+
+
+
+state 79
+
+    operand_expr  ->  PUSH .   (rule 34)
+
+    $default	reduce using rule 34 (operand_expr)
+
+
+
+state 80
+
+    operand_expr  ->  '[' . operand_regester ']'   (rule 31)
+    operand_expr  ->  '[' . operand_regester '+' expr ']'   (rule 32)
+    operand_expr  ->  '[' . expr '+' operand_regester ']'   (rule 33)
+    operand_expr  ->  '[' . REG_SP ']'   (rule 37)
+    operand_expr  ->  '[' . REG_SP '+' expr ']'   (rule 39)
+    operand_expr  ->  '[' . expr ']'   (rule 43)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    REG_A	shift, and go to state 65
+    REG_B	shift, and go to state 66
+    REG_C	shift, and go to state 67
+    REG_X	shift, and go to state 68
+    REG_Y	shift, and go to state 69
+    REG_Z	shift, and go to state 70
+    REG_I	shift, and go to state 71
+    REG_J	shift, and go to state 72
+    REG_SP	shift, and go to state 100
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    operand_regester	go to state 101
+    expr	go to state 102
+
+
+
+state 81
+
+    operand_expr  ->  operand_regester .   (rule 30)
+
+    $default	reduce using rule 30 (operand_expr)
+
+
+
+state 82
+
+    opcode_expr  ->  opcode_expr_single operand_expr .   (rule 75)
+
+    $default	reduce using rule 75 (opcode_expr)
+
+
+
+state 83
+
+    operand_expr  ->  expr .   (rule 44)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+    $default	reduce using rule 44 (operand_expr)
+
+
+
+state 84
+
+    opcode_expr  ->  opcode_expr_double operand_expr . ',' operand_expr   (rule 74)
+
+    ',' 	shift, and go to state 103
+
+
+
+state 85
+
+    line  ->  expr EOL .   (rule 12)
+
+    $default	reduce using rule 12 (line)
+
+
+
+state 86
+
+    expr  ->  expr '+' . expr   (rule 76)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 104
+
+
+
+state 87
+
+    expr  ->  expr '-' . expr   (rule 77)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 105
+
+
+
+state 88
+
+    expr  ->  expr '*' . expr   (rule 78)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 106
+
+
+
+state 89
+
+    expr  ->  expr '/' . expr   (rule 79)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 107
+
+
+
+state 90
+
+    expr  ->  expr '%' . expr   (rule 80)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 108
+
+
+
+state 91
+
+    line  ->  ORGIN expr EOL .   (rule 8)
+
+    $default	reduce using rule 8 (line)
+
+
+
+state 92
+
+    datseq  ->  STRING ',' . datseq   (rule 20)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    STRING	shift, and go to state 49
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    datseq	go to state 109
+    expr	go to state 51
+
+
+
+state 93
+
+    datseq  ->  expr ',' . datseq   (rule 21)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    STRING	shift, and go to state 49
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    datseq	go to state 110
+    expr	go to state 51
+
+
+
+state 94
+
+    line  ->  IDENT EQU expr . EOL   (rule 6)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    EOL 	shift, and go to state 111
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+
+
+state 95
+
+    line  ->  IDENT '=' expr . EOL   (rule 5)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    EOL 	shift, and go to state 112
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+
+
+state 96
+
+    expr  ->  '(' expr ')' .   (rule 81)
+
+    $default	reduce using rule 81 (expr)
+
+
+
+state 97
+
+    line  ->  label ORGIN expr . EOL   (rule 7)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    EOL 	shift, and go to state 113
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+
+
+state 98
+
+    line  ->  label macro EOL .   (rule 11)
+
+    $default	reduce using rule 11 (line)
+
+
+
+state 99
+
+    operand_expr  ->  PICK expr .   (rule 38)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+    $default	reduce using rule 38 (operand_expr)
+
+
+
+state 100
+
+    operand_expr  ->  '[' REG_SP . ']'   (rule 37)
+    operand_expr  ->  '[' REG_SP . '+' expr ']'   (rule 39)
+
+    '+' 	shift, and go to state 114
+    ']' 	shift, and go to state 115
+
+
+
+state 101
+
+    operand_expr  ->  '[' operand_regester . ']'   (rule 31)
+    operand_expr  ->  '[' operand_regester . '+' expr ']'   (rule 32)
+
+    '+' 	shift, and go to state 116
+    ']' 	shift, and go to state 117
+
+
+
+state 102
+
+    operand_expr  ->  '[' expr . '+' operand_regester ']'   (rule 33)
+    operand_expr  ->  '[' expr . ']'   (rule 43)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 118
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+    ']' 	shift, and go to state 119
+
+
+
+state 103
+
+    opcode_expr  ->  opcode_expr_double operand_expr ',' . operand_expr   (rule 74)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    REG_A	shift, and go to state 65
+    REG_B	shift, and go to state 66
+    REG_C	shift, and go to state 67
+    REG_X	shift, and go to state 68
+    REG_Y	shift, and go to state 69
+    REG_Z	shift, and go to state 70
+    REG_I	shift, and go to state 71
+    REG_J	shift, and go to state 72
+    REG_SP	shift, and go to state 73
+    REG_EX	shift, and go to state 74
+    REG_PC	shift, and go to state 75
+    PEEK	shift, and go to state 76
+    POP 	shift, and go to state 77
+    PICK	shift, and go to state 78
+    PUSH	shift, and go to state 79
+    '-' 	shift, and go to state 36
+    '[' 	shift, and go to state 80
+    '(' 	shift, and go to state 38
+
+    operand_regester	go to state 81
+    operand_expr	go to state 120
+    expr	go to state 83
+
+
+
+state 104
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr '+' expr .   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+    $default	reduce using rule 76 (expr)
+
+
+
+state 105
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr '-' expr .   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+
+    $default	reduce using rule 77 (expr)
+
+
+
+state 106
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr '*' expr .   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+
+    $default	reduce using rule 78 (expr)
+
+
+
+state 107
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr '/' expr .   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+
+    $default	reduce using rule 79 (expr)
+
+
+
+state 108
+
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+    expr  ->  expr '%' expr .   (rule 80)
+
+
+    $default	reduce using rule 80 (expr)
+
+
+
+state 109
+
+    datseq  ->  STRING ',' datseq .   (rule 20)
+
+    $default	reduce using rule 20 (datseq)
+
+
+
+state 110
+
+    datseq  ->  expr ',' datseq .   (rule 21)
+
+    $default	reduce using rule 21 (datseq)
+
+
+
+state 111
+
+    line  ->  IDENT EQU expr EOL .   (rule 6)
+
+    $default	reduce using rule 6 (line)
+
+
+
+state 112
+
+    line  ->  IDENT '=' expr EOL .   (rule 5)
+
+    $default	reduce using rule 5 (line)
+
+
+
+state 113
+
+    line  ->  label ORGIN expr EOL .   (rule 7)
+
+    $default	reduce using rule 7 (line)
+
+
+
+state 114
+
+    operand_expr  ->  '[' REG_SP '+' . expr ']'   (rule 39)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 121
+
+
+
+state 115
+
+    operand_expr  ->  '[' REG_SP ']' .   (rule 37)
+
+    $default	reduce using rule 37 (operand_expr)
+
+
+
+state 116
+
+    operand_expr  ->  '[' operand_regester '+' . expr ']'   (rule 32)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    expr	go to state 122
+
+
+
+state 117
+
+    operand_expr  ->  '[' operand_regester ']' .   (rule 31)
+
+    $default	reduce using rule 31 (operand_expr)
+
+
+
+state 118
+
+    operand_expr  ->  '[' expr '+' . operand_regester ']'   (rule 33)
+    expr  ->  expr '+' . expr   (rule 76)
+
+    NUMBER	shift, and go to state 33
+    IDENT	shift, and go to state 47
+    REG_A	shift, and go to state 65
+    REG_B	shift, and go to state 66
+    REG_C	shift, and go to state 67
+    REG_X	shift, and go to state 68
+    REG_Y	shift, and go to state 69
+    REG_Z	shift, and go to state 70
+    REG_I	shift, and go to state 71
+    REG_J	shift, and go to state 72
+    '-' 	shift, and go to state 36
+    '(' 	shift, and go to state 38
+
+    operand_regester	go to state 123
+    expr	go to state 104
+
+
+
+state 119
+
+    operand_expr  ->  '[' expr ']' .   (rule 43)
+
+    $default	reduce using rule 43 (operand_expr)
+
+
+
+state 120
+
+    opcode_expr  ->  opcode_expr_double operand_expr ',' operand_expr .   (rule 74)
+
+    $default	reduce using rule 74 (opcode_expr)
+
+
+
+state 121
+
+    operand_expr  ->  '[' REG_SP '+' expr . ']'   (rule 39)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+    ']' 	shift, and go to state 124
+
+
+
+state 122
+
+    operand_expr  ->  '[' operand_regester '+' expr . ']'   (rule 32)
+    expr  ->  expr . '+' expr   (rule 76)
+    expr  ->  expr . '-' expr   (rule 77)
+    expr  ->  expr . '*' expr   (rule 78)
+    expr  ->  expr . '/' expr   (rule 79)
+    expr  ->  expr . '%' expr   (rule 80)
+
+    '+' 	shift, and go to state 86
+    '-' 	shift, and go to state 87
+    '*' 	shift, and go to state 88
+    '/' 	shift, and go to state 89
+    '%' 	shift, and go to state 90
+    ']' 	shift, and go to state 125
+
+
+
+state 123
+
+    operand_expr  ->  '[' expr '+' operand_regester . ']'   (rule 33)
+
+    ']' 	shift, and go to state 126
+
+
+
+state 124
+
+    operand_expr  ->  '[' REG_SP '+' expr ']' .   (rule 39)
+
+    $default	reduce using rule 39 (operand_expr)
+
+
+
+state 125
+
+    operand_expr  ->  '[' operand_regester '+' expr ']' .   (rule 32)
+
+    $default	reduce using rule 32 (operand_expr)
+
+
+
+state 126
+
+    operand_expr  ->  '[' expr '+' operand_regester ']' .   (rule 33)
+
+    $default	reduce using rule 33 (operand_expr)
+
+
+
+state 127
+
+    $   	go to state 128
+
+
+
+state 128
+
+    $   	go to state 129
+
+
+
+state 129
+
+    $default	accept

@@ -1,4 +1,4 @@
-#include "sym.h"
+#include "dcpu16.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +9,7 @@ typedef struct s_symbol {
 	int type;
 	tag name;
 	union {
-		uint16_t val;
+		int val;
 		int token;
 	} u;
 	struct s_symbol* next;  // For chaining.
@@ -82,11 +82,12 @@ int sym_list(FILE * f) {
 	int ret = 0;
 	symbol* s = _symall;
 	while(s) {
-		ret += fprintf(f,"%-10s : %4.4x\n",s->name,s->u.val);
+		ret += fprintf(f,"%4.4x: %s\n",s->name,s->u.val);
 		s = s->allnext;
 	}
 	return ret;
 }
+
 int sym_lookup(tag name) {
 	symbol *sp = _sym_hlookup(name,hashptr(uintptr(name)));
 	switch(sp->type)
@@ -96,7 +97,8 @@ int sym_lookup(tag name) {
 	case SYM_NUMBER: 
 		return sp->u.val;
 	default:
-		return -1;
+		yyerror("Symbol %s Not defined!");
+		fatal_error(1);
 	}
 }
 	
@@ -109,7 +111,7 @@ int sym_tok(tag name, int token) {
 	return token;
 }
 
-int sym_val(tag name, uint16_t val) {
+int sym_val(tag name, int val) {
 	uint32_t h = hashptr(uintptr(name));
 	symbol *sp = _sym_hlookup(name,hashptr(uintptr(name)));
 	if(sp->type == SYM_TOKEN) return -1; // sorry pointer exists  Cannot change a const token

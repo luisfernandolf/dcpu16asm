@@ -8,13 +8,16 @@
 	#define YY_NO_UNISTD_H 
 	#define YYDEBUG 1
 %}
-%token SET ADD SUB MUL DIV MOD SHL SHR AND BOR XOR IFE IFN IFG IFB 
-%token JSR
+%token SET ADD SUB MUL MUI DIV DVI MOD AND BOR XOR SHR ASR SHL 
+%token IFB IFC IFE IFN IFG IFA IFA IFL IFU 
+%token JSR INT ING INS HWN HWQ HWI
 %token ORGIN WORD BYTE EQU NUMBER IDENT EOL EOFILE ERROR 
  
-%token REG_A REG_B REG_C REG_X REG_Y REG_Z REG_I REG_J REG_SP REG_O REG_PEEK REG_POP REG_PUSH REG_PC
+%token REG_A REG_B REG_C REG_X REG_Y REG_Z REG_I REG_J REG_SP REG_EX  REG_PC
+%token PEEK POP PICK PUSH
 %union
 {
+	uint16_t _code;
 	int _num;
 	tag _ident;
 	tag _string;
@@ -28,11 +31,13 @@
 %token <_ident> STRING IDENT
 %type <_ident> label 
 %type <_line>  line macro
+%type <_code> opcode_expr_double opcode_expr_single operand_regester
 %type <_opcode> opcode_expr
+
 %type <_expr>  expr
 %type <_args> datseq  
-%type <_operand> operand_regester operand_expr
-	REG_A REG_B REG_C REG_X REG_Y REG_Z REG_I REG_J REG_SP REG_O REG_PEEK REG_POP REG_PUSH REG_PC
+%type <_operand>  operand_expr
+	REG_A REG_B REG_C REG_X REG_Y REG_Z REG_I REG_J
 
 %right '=' EQU ORGIN
 %left '+' '-' 
@@ -82,64 +87,72 @@ datseq  : STRING            { $$ = arg_array((uint8_t*)$1,strlen($1));  }
 
 
 operand_regester 
-    : REG_A						{ $$.code = 0; $$.expr = NULL; }	
-	| REG_B						{ $$.code = 1; $$.expr = NULL; }	
-	| REG_C						{ $$.code = 2; $$.expr = NULL; }	
-	| REG_X						{ $$.code = 3; $$.expr = NULL; }	
-	| REG_Y						{ $$.code = 4; $$.expr = NULL; }	
-	| REG_Z						{ $$.code = 5; $$.expr = NULL; }	
-	| REG_I						{ $$.code = 6; $$.expr = NULL; }	
-	| REG_J						{ $$.code = 7; $$.expr = NULL; }	
+    : REG_A						{ $$ = 0; }	
+	| REG_B						{ $$ = 1;  }	
+	| REG_C						{ $$ = 2;  }	
+	| REG_X						{ $$ = 3;  }	
+	| REG_Y						{ $$ = 4;  }	
+	| REG_Z						{ $$ = 5;  }	
+	| REG_I						{ $$ = 6;  }	
+	| REG_J						{ $$ = 7;  }	
 	;
 
 operand_expr 
-	: operand_regester						{ $$ = $1;					}
-	| '[' operand_regester ']'				{ $$ = $2;  $$.code  += 8;			}
-	| '[' expr  '+' operand_regester ']'	{ $$ = $4; $$.code  += 16;	$$.expr = $2;		}
-	| REG_POP								{ $$.code  = 0x18;	$$.expr = NULL;		}
-	| REG_PEEK								{ $$.code  = 0x19;	$$.expr = NULL;		}
-	| REG_PUSH								{ $$.code  = 0x1a;	$$.expr = NULL;		}
+	: operand_regester						{ $$.code = $1;		$$.expr = NULL;		}
+	| '[' operand_regester ']'				{ $$.code = $2 + 8;	$$.expr = NULL;		}
+	| '[' operand_regester '+' expr ']'	    { $$.code = $2 + 16; $$.expr = $4;		}
+	| '[' expr '+' operand_regester ']'	    { $$.code = $4 + 16; $$.expr = $2;		}
+	| PUSH									{ $$.code  = 0x18;	$$.expr = NULL;		}
+	| POP								    { $$.code  = 0x18;	$$.expr = NULL;		}
+	| PEEK								    { $$.code  = 0x19;	$$.expr = NULL;		}
+	| '[' REG_SP ']'					    { $$.code  = 0x19;	$$.expr = NULL;		}
+	| PICK expr					            { $$.code  = 0x1a;	$$.expr = $2;		}
+	| '[' REG_SP '+'  expr ']'		        { $$.code  = 0x1a;	$$.expr = $4;		}
 	| REG_SP								{ $$.code  = 0x1b;	$$.expr = NULL;		}
 	| REG_PC								{ $$.code  = 0x1c;	$$.expr = NULL;		}
-	| REG_O									{ $$.code  = 0x1d;	$$.expr = NULL;		}
+	| REG_EX								{ $$.code  = 0x1d;	$$.expr = NULL;		}
 	| '[' expr ']'							{ $$.code  = 0x1e;	$$.expr = $2;		}
-	| expr				{   
-							if(ast_isnum($1)) 
-								if($1->v.num < 0x20) {
-									$$.code = operand_code(0x20 + $1->v.num);
-									$$.expr = NULL;
-									ast_free($1);
-									$1 = NULL;
-								} else {
-									$$.code  = 0x1f;	
-									$$.expr = $1;
-								}
-							else {
-								$$.code  = 0x1f;	
-								$$.expr = $1;
-							}
+	| expr									{ $$.code  = 0x1f;	$$.expr = $1;		}
+	;
 
-						}	
-						
+opcode_expr_single
+	: JSR 	{ $$ = 0x01;  }
+	| INT 	{ $$ = 0x08;  }
+	| ING 	{ $$ = 0x09;  }
+	| INS 	{ $$ = 0x0a;  }
+	| HWN 	{ $$ = 0x10;  }
+	| HWQ 	{ $$ = 0x11;  }
+	| HWI 	{ $$ = 0x12;  }
+	;
+opcode_expr_double
+	: SET 	{ $$ = 0x1;  }
+	| ADD 	{ $$ = 0x2;  }
+	| SUB 	{ $$ = 0x3;  }
+	| MUL 	{ $$ = 0x4;  }
+	| MUI 	{ $$ = 0x5;  }
+	| DIV 	{ $$ = 0x6;  }
+	| DVI 	{ $$ = 0x7;  }
+	| MOD 	{ $$ = 0x8;  }
+	| AND 	{ $$ = 0x9;  }
+	| BOR 	{ $$ = 0xA;  }
+	| XOR 	{ $$ = 0xB;  }
+	| SHR 	{ $$ = 0xC;  }
+	| ASR 	{ $$ = 0xD;  }
+	| SHL 	{ $$ = 0xE;  }
+	| IFB 	{ $$ = 0x10; }
+	| IFC 	{ $$ = 0x11; }
+	| IFE 	{ $$ = 0x12; }
+	| IFN 	{ $$ = 0x13; }
+	| IFG 	{ $$ = 0x14; }
+	| IFA 	{ $$ = 0x15; }
+	| IFL 	{ $$ = 0x16; }
+	| IFU 	{ $$ = 0x17; }
 	;
 
 opcode_expr
-	: SET operand_expr ',' operand_expr	{ $$.code = 0x1; $$.a = $2; $$.b =  $4; }
-	| ADD operand_expr ',' operand_expr	{ $$.code = 0x2; $$.a = $2; $$.b =  $4; }
-	| SUB operand_expr ',' operand_expr	{ $$.code = 0x3; $$.a = $2; $$.b =  $4; }
-	| MUL operand_expr ',' operand_expr	{ $$.code = 0x4; $$.a = $2; $$.b =  $4; }
-	| DIV operand_expr ',' operand_expr	{ $$.code = 0x5; $$.a = $2; $$.b =  $4; }
-	| MOD operand_expr ',' operand_expr	{ $$.code = 0x6; $$.a = $2; $$.b =  $4; }
-	| SHL operand_expr ',' operand_expr	{ $$.code = 0x7; $$.a = $2; $$.b =  $4; }
-	| SHR operand_expr ',' operand_expr	{ $$.code = 0x8; $$.a = $2; $$.b =  $4; }
-	| AND operand_expr ',' operand_expr	{ $$.code = 0x9; $$.a = $2; $$.b =  $4; }
-	| BOR operand_expr ',' operand_expr	{ $$.code = 0xA; $$.a = $2; $$.b =  $4; }
-	| XOR operand_expr ',' operand_expr	{ $$.code = 0xB; $$.a = $2; $$.b =  $4; }
-	| IFE operand_expr ',' operand_expr	{ $$.code = 0xC; $$.a = $2; $$.b =  $4; }
-	| IFN operand_expr ',' operand_expr	{ $$.code = 0xD; $$.a = $2; $$.b =  $4; }
-	| IFG operand_expr ',' operand_expr	{ $$.code = 0xE; $$.a = $2; $$.b =  $4; }
-	| IFB operand_expr ',' operand_expr	{ $$.code = 0xF; $$.a = $2; $$.b =  $4; }
-	| JSR operand_expr					{ $$.code = 0;   $$.a.code = 0x01; $$.b = $2; }
+	: opcode_expr_double operand_expr ',' operand_expr	{ $$.code = $1; $$.b = $2; $$.a =  $4; }
+	| opcode_expr_single operand_expr					{ $$.code = $1 << 5;  $$.a = $2; $$.b.code = -1; }
+	;
 
 expr	: expr '+' expr					{ $$ = ast_new('+', $1,$3); }
 		| expr '-' expr					{ $$ = ast_new('-', $1,$3); }

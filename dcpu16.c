@@ -3,10 +3,16 @@
 #include <assert.h>
 #include <stdint.h>
 
-const char* opcode_str[] =     { "ER0", "SET", "ADD", "SUB", "MUL", "DIV", "MOD", "SHL", "SHR", "AND", "BOR", "XOR", "IFE", "IFN", "IFG", "IFB", NULL };
-const char* opcode_ext_str[] = { "ER1", "JSR", NULL };
-const char* regester_str[] = { "A", "B","C","X","Y","Z","I","J", NULL};
-const char* special_reg_str[] = { "POP","PEEK","PUSH","SP","PC","O",NULL };
+const char* opcode_str[] =     { 
+	"E00", "SET", "ADD", "SUB", "MUL", "MUI", "DIV", "DVI", "MOD", "AND", "BOR", "XOR", "SHR", "ASR", "SHL", "E0F", 
+	"IFB", "IFC", "IFE", "IFN", "IFG", "IFA", "IFL", "IFU", "E18", "E19", "E1A", "E1B", "E1C", "E1D", "E1E", "E1F" 
+};
+const char* opcode_ext_str[] = { 
+	"S00", "JSR", "S02", "S03", "S04", "S05", "S06", "S07", "INT", "ING", "INS", "S0B", "S0C", "S0D", "S0E", "S0F",
+	"HWN", "HWQ", "HWI", "S13", "S14", "S15"," S16", "S17", "S18", "S19", "S1A", "S1B", "S1C", "S1D", "S1E", "S1F" 
+};
+const char* regester_str[] =    { "A", "B","C","X","Y","Z","I","J", NULL};
+const char* special_reg_str[] = { "POP","PEEK","PICK","SP","PC","EX",NULL };
 
  enum {
 	 ARG_EXPR,
@@ -55,7 +61,7 @@ void arg_free(arg* a) {
 	}
 }
 
-int list_operand(FILE* f,Operand* op) 
+int list_operand(FILE* f,Operand* op, int is_a) 
 {
 	if(op->code >= 0x00 && op->code <= 0x07)
 		return fprintf(f,"%s",regester_str[op->code]);
@@ -63,18 +69,20 @@ int list_operand(FILE* f,Operand* op)
 		return fprintf(f,"[%s]",regester_str[op->code & 3]);
 	else if(op->code >= 0x10 && op->code <=0x17)
 		return fprintf(f,"[%s+%#4.1x]",regester_str[op->code & 3],ast_eval(op->expr));
-	else if(op->code >=0x18 && op->code <= 0x1d)
-		return fprintf(f,"%s",special_reg_str[op->code -0x18]);
-	else if(op->code == 0x1e)
-		return fprintf(f,"[%#4.1x]",ast_eval(op->expr));
-	else if(op->code == 0x1f) 
-		return fprintf(f,"%#4.1x",ast_eval(op->expr));
-	else if(op->code >= 0x20 && op->code <= 0x3f)
+	else if(op->code >= 0x20 && op->code <= 0x3f && is_a)
 		return fprintf(f,"%#2.1x",op->code - 0x20);
-	fprintf(errAsm,"list_operand: Invalid Operand");
-	assert(0);
-	exit(1);
+	else switch(op->code) {
+	case 0x18: return is_a ? fprintf(f,"POP") : fprintf(f,"PUSH");
+	case 0x1b: return fprintf(f,"SP");
+	case 0x1c: return fprintf(f,"PC");
+	case 0x1e: return fprintf(f,"[%#4.1x]",ast_eval(op->expr));
+	case 0x1f: return fprintf(f,"%#4.1x",ast_eval(op->expr));
+	}
+	yyerror("list_operand: Invalid Operand");
+	fatal_error(1);
+	return 0;
 }
+
 int opcode_size(Opcode* op) {
 	int ret = 1;
 	ret += op->a.expr ? 1 : 0;
@@ -83,28 +91,30 @@ int opcode_size(Opcode* op) {
 }
 int opcode_list(FILE * f, Opcode* op) {
 	int ret = 0;
-	if(op->code == 0) {
-		if(op->a.code != 1) { yyerror("We do not support more than JSR at this time"); exit(1); }
-		// Special opcode handling, fix this if we get more
-		ret += fprintf(f,"%s ", opcode_ext_str[op->a.code]);
-		ret += list_operand(f,&op->b);
+	uint16_t n = 0;
+	if((op->code & 0x1f) == 0) {
+		n = (op->code >> 5) & 0x1f;
+		ret += fprintf(f,"%s ", opcode_ext_str[n]);
+		ret += list_operand(f,&op->a,1);
 	} else {
-		ret += fprintf(f,"%s ", opcode_str[op->code & 0xf]);
-		ret += list_operand(f,&op->a);
+		n = op->code & 0x1f;
+		ret += fprintf(f,"%s ", opcode_str[n]);
+		ret += list_operand(f,&op->a,1);
 		ret += fprintf(f," ,\t");
-		ret += list_operand(f,&op->b);
+		ret += list_operand(f,&op->b,0);
 	}
 	return ret;
 }
 int opcode_emit(Opcode* op,uint16_t* mem) {
 	int ret = 0;
-	if(op->code == 0) {
-		if(op->a.code != 1) { yyerror("We do not support more than JSR at this time"); exit(1); }
-		// Special opcode handling, fix this if we get more
-		mem[ret++] = ((op->b.code & 0x3F) << 10) | ((op->a.code & 0x3F) << 4);
+	uint16_t n = 0;
+	if((op->code & 0x1f) == 0) {
+		n = (op->code >> 5) & 0x1f;
+		mem[ret++] = ((op->a.code & 0x3F) << 10) | ((n) << 4);
 		if(op->b.expr) mem[ret++] =  ast_eval(op->b.expr);
 	} else {
-		mem[ret++] = ((op->b.code & 0x3F) << 10) | ((op->a.code & 0x3F) << 4) | (op->code & 0xF);
+		n = op->code & 0x1f;
+		mem[ret++] = ((op->a.code & 0x3F) << 10) | ((op->b.code & 0x1F) << 4) | n;
 		if(op->a.expr) mem[ret++] =  ast_eval(op->a.expr);
 		if(op->b.expr) mem[ret++] =  ast_eval(op->b.expr);
 	}
@@ -140,13 +150,14 @@ enum {
 };
 uint16_t line_current_pc() { return PC; }
 
-
+extern int yylineno;
 void pushline(Line * line) {
 	if(!line) return;
+	printf("Line %d: Token: %x\n" , yylineno,line->type);
 	if(!root) { root = last = line; return; }
 	last->next = line;
 	last = line;
-	line->lineno = lineno;
+	line->lineno = yylineno;
 }
 
 static Line * _line_new(int type) {
@@ -163,17 +174,6 @@ Line* line_origin(int origin) {
 }
 Line* line_opcode(Opcode opcode) {
 	Line * t = _line_new(LINE_OPCODE);
-	// Lets verify we have a valid opcode, if not spit out an error and drop.
-	if(opcode.code == 0 && opcode.a.code != 1)
-	{
-		// We only support extended JSR at this time, so lets let eveyone know we don't support
-		// anything else
-		yyerror("Only support JSR right now");
-		fatal_error(1);
-	} else if(opcode.code > 0x3f) {
-		yyerror("Opcode out of range, programing glitch?");
-		fatal_error(1);
-	}
 	t->v.opcode = opcode;
 	PC += opcode_size(&opcode);
 	return t;

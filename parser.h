@@ -1,5 +1,6 @@
 typedef union
 {
+	uint16_t _code;
 	int _num;
 	tag _ident;
 	tag _string;
@@ -13,43 +14,57 @@ typedef union
 #define	ADD	259
 #define	SUB	260
 #define	MUL	261
-#define	DIV	262
-#define	MOD	263
-#define	SHL	264
-#define	SHR	265
+#define	MUI	262
+#define	DIV	263
+#define	DVI	264
+#define	MOD	265
 #define	AND	266
 #define	BOR	267
 #define	XOR	268
-#define	IFE	269
-#define	IFN	270
-#define	IFG	271
+#define	SHR	269
+#define	ASR	270
+#define	SHL	271
 #define	IFB	272
-#define	JSR	273
-#define	ORGIN	274
-#define	WORD	275
-#define	BYTE	276
-#define	EQU	277
-#define	NUMBER	278
-#define	IDENT	279
-#define	EOL	280
-#define	EOFILE	281
-#define	ERROR	282
-#define	REG_A	283
-#define	REG_B	284
-#define	REG_C	285
-#define	REG_X	286
-#define	REG_Y	287
-#define	REG_Z	288
-#define	REG_I	289
-#define	REG_J	290
-#define	REG_SP	291
-#define	REG_O	292
-#define	REG_PEEK	293
-#define	REG_POP	294
-#define	REG_PUSH	295
-#define	REG_PC	296
-#define	STRING	297
-#define	UMINUS	298
+#define	IFC	273
+#define	IFE	274
+#define	IFN	275
+#define	IFG	276
+#define	IFA	277
+#define	IFL	278
+#define	IFU	279
+#define	JSR	280
+#define	INT	281
+#define	ING	282
+#define	INS	283
+#define	HWN	284
+#define	HWQ	285
+#define	HWI	286
+#define	ORGIN	287
+#define	WORD	288
+#define	BYTE	289
+#define	EQU	290
+#define	NUMBER	291
+#define	IDENT	292
+#define	EOL	293
+#define	EOFILE	294
+#define	ERROR	295
+#define	REG_A	296
+#define	REG_B	297
+#define	REG_C	298
+#define	REG_X	299
+#define	REG_Y	300
+#define	REG_Z	301
+#define	REG_I	302
+#define	REG_J	303
+#define	REG_SP	304
+#define	REG_EX	305
+#define	REG_PC	306
+#define	PEEK	307
+#define	POP	308
+#define	PICK	309
+#define	PUSH	310
+#define	STRING	311
+#define	UMINUS	312
 
 
 extern YYSTYPE yylval;
