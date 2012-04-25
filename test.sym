@@ -1,0 +1,4 @@
+000f: loop
+001d: testsub
+0020: crash
+4000: data
